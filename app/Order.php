@@ -10,4 +10,14 @@ class Order extends Model
     {
         return $this->belongsTo('App\Account');
     }
+
+    public static function getRecentOrderCount(int $account_id)
+    {
+        $timestamp = Carbon::now()->subMinutes(5);
+
+        return DB::table('orders')
+            ->where('account', $account_id)
+            ->where('created_at', '>=', $timestamps)
+            ->count();
+    }
 }
